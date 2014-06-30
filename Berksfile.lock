@@ -1,0 +1,53 @@
+DEPENDENCIES
+  graphite
+    path: .
+    metadata: true
+  graphite-test
+    path: test/cookbooks/graphite-test
+  poise-proxy
+    git: https://github.com/poise/poise-proxy
+    revision: 65ddb7e1af06ebc1181022b8b79958c06b9e9a96
+    branch: master
+  qosp_repo
+    git: https://github.qualcomm.com/ootcs-chef/qosp_repo-chef
+    revision: 8d0339b2ff72f5d39b6f811ffb39db83209da40d
+    branch: master
+
+GRAPH
+  apt (2.4.0)
+  bluepill (2.3.1)
+    rsyslog (>= 0.0.0)
+  build-essential (2.0.4)
+  graphite (0.1.0)
+    nginx (>= 0.0.0)
+    poise (>= 0.0.0)
+    poise-proxy (>= 0.0.0)
+    runit (>= 0.0.0)
+  graphite-test (0.1.0)
+    graphite (>= 0.0.0)
+  nginx (2.7.4)
+    apt (~> 2.2)
+    bluepill (~> 2.3)
+    build-essential (~> 2.0)
+    ohai (~> 2.0)
+    runit (~> 1.2)
+    yum-epel (~> 0.3)
+  ohai (2.0.1)
+  poise (1.0.10)
+  poise-proxy (1.0.0)
+    poise (>= 0.0.0)
+  qosp_repo (0.2.1)
+    apt (>= 0.0.0)
+    ubuntu (>= 0.0.0)
+    yum (>= 0.0.0)
+    yum-epel (>= 0.0.0)
+  rsyslog (1.12.2)
+  runit (1.5.10)
+    build-essential (>= 0.0.0)
+    yum (~> 3.0)
+    yum-epel (>= 0.0.0)
+  ubuntu (1.1.6)
+    apt (>= 0.0.0)
+  yum (3.2.2)
+  yum-epel (0.3.6)
+    yum (~> 3.0)
