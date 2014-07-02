@@ -38,7 +38,7 @@ class Chef
     attribute(:whisper_dir, kind_of: String, config_attribute: true, default: lazy { parent.whisper_dir })
     attribute(:rrd_dir, kind_of: String, config_attribute: true, default: lazy { parent.rrd_dir })
     attribute(:log_dir, kind_of: String, config_attribute: true, default: lazy { parent.log_dir })
-    attribute(:index_file, kind_of: String, config_attribute: true)
+    attribute(:index_file, kind_of: String, config_attribute: true, default: lazy { "#{parent.storage_dir}/index" })
 
     attribute(:secret_key, kind_of: String, config_attribute: true)
     attribute(:allowed_hosts, kind_of: Array, default: [ '*' ], config_attribute: true)
