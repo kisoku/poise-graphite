@@ -134,8 +134,7 @@ class Chef
       notifying_block do
         create_local_settings
         # create_database
-        install_service
-        install_proxy
+        configure_service
       end
     end
 
@@ -197,6 +196,16 @@ class Chef
     def unconfigure_service
       raise NotImplementedError
     end
+  end
+
+  class Provider::GraphiteWeb::Gunicorn < Chef::Provider::GraphiteWeb
+
+    private
+
+    def configure_service
+      super
+      proxy_resource
+    end
 
     def service_resource
       include_recipe 'runit'
@@ -211,21 +220,16 @@ class Chef
       end
     end
 
-    def install_proxy
+    def proxy_resource
       svc = new_resource
       if new_resource.enable_proxy
-        poise_proxy "graphite_web_#{new_resource.name}" do
+        @proxy_resource ||= poise_proxy "graphite_web_#{new_resource.name}" do
           parent svc
           ssl_enabled true
           ssl_redirect_http true
           provider :nginx
         end
       end
-    end
-  end
-
-  class Provider::GraphiteWeb::Gunicorn < Chef::Provider::GraphiteWeb
-    def install_service
     end
   end
 end
