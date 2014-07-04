@@ -188,6 +188,7 @@ class Chef
         group new_resource.parent.group
         mode '0644'
         content new_resource.local_settings_content
+        notifies :restart, new_resource
       end
     end
 
