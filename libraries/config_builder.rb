@@ -73,7 +73,9 @@ module ConfigBuilder
     end
 
     val = send(attr)
-    if val
+    if val.respond_to?(:empty?) and val.empty?
+      nil
+    elsif val
       if self.respond_to?(:"config_value_formatter_#{attr}")
         val = send(:"config_value_formatter_#{attr}", val)
       elsif self.respond_to?(:config_value_formatter)
