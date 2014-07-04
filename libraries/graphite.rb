@@ -57,6 +57,22 @@ class Chef
     def self.default_provider
       :package
     end
+
+    def carbon_services
+      subresources.select { |r| r.is_a?(Chef::Resource::Carbon) && r.action != :nothing }
+    end
+
+    def carbon_caches
+      subresources.select { |r| r.is_a?(Chef::Resource::CarbonCache) && r.action != :nothing }
+    end
+
+    def carbon_relays
+      subresources.select { |r| r.is_a?(Chef::Resource::CarbonRelay) && r.action != :nothing }
+    end
+
+    def carbon_aggregators
+      subresources.select { |r| r.is_a?(Chef::Resource::CarbonAggregator) && r.action != :nothing }
+    end
   end
   class Provider::Graphite < Chef::Provider
     include Poise
@@ -104,6 +120,9 @@ class Chef
         group new_resource.group
         mode '0644'
         content new_resource.carbon_conf_content
+        new_resource.carbon_services.each  do |res|
+          notifies :restart, res
+        end
       end
     end
 
@@ -118,6 +137,9 @@ class Chef
         group new_resource.group
         mode '0644'
         content new_resource.storage_schemas_content
+        new_resource.carbon_caches.each  do |res|
+          notifies :restart, res
+        end
       end
     end
 
@@ -132,6 +154,9 @@ class Chef
         group new_resource.group
         mode '0644'
         content new_resource.storage_aggregation_content
+        new_resource.carbon_aggregators.each  do |res|
+          notifies :restart, res
+        end
       end
     end
 
