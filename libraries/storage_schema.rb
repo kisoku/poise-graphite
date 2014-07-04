@@ -17,6 +17,7 @@
 #
 
 require File.expand_path('../graphite', __FILE__)
+require File.expand_path('../config_builder', __FILE__)
 
 class Chef
   class Resource::GraphiteStorageSchemaRule < Chef::Resource
