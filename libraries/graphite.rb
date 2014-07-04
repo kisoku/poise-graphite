@@ -38,6 +38,7 @@ class Chef
     attribute(:carbon_conf, template: true)
     attribute(:storage_schemas, template: true)
     attribute(:storage_aggregation, template: true)
+    attribute(:relay_rules, template: true)
 
     def provider(arg=nil)
       if arg.kind_of?(String) || arg.kind_of?(Symbol)
@@ -155,6 +156,23 @@ class Chef
         mode '0644'
         content new_resource.storage_aggregation_content
         new_resource.carbon_aggregators.each  do |res|
+          notifies :restart, res
+        end
+      end
+    end
+
+    def create_relay_rules
+      if !new_resource.relay_rules_source && !new_resource.relay_rules_content(nil, true)
+        new_resource.relay_rules_source('storage-aggregation.conf.erb')
+        new_resource.relay_rules_cookbook('graphite')
+      end
+
+      file "#{new_resource.conf_dir}/relay-rules.cond" do
+        owner new_resource.user
+        group new_resource.group
+        mode '0644'
+        content new_resource.relay_rules_content
+        new_resource.carbon_relays.each  do |res|
           notifies :restart, res
         end
       end
