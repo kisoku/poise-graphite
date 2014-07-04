@@ -4,4 +4,6 @@
 # Local changes will be overwritten
 #
 
+<%= @new_resource.subresources.select {|r| r.is_a? Chef::Resource::GraphiteDatabase }.first.to_conf %>
+
 <%= @new_resource.to_conf %>

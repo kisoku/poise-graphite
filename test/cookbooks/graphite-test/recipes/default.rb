@@ -36,4 +36,11 @@ carbon_relay 'a' do
   relay_method 'consistent-hashing'
 end
 
-graphite_web 'gunicorn'
+graphite_web 'gunicorn' do
+  database 'graphite' do
+    user 'graphite'
+    password 'badpassword'
+    admin_user 'postgres'
+    admin_password node['postgresql']['password']['postgres']
+  end
+end

@@ -11,8 +11,14 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[postgresql::server]
       - recipe[qosp_repo]
       - recipe[graphite-test::default]
     attributes:
       qosp_repo:
         use_dev: true
+      postgresql:
+        password:
+          postgres: 'reallybadpassword'
+        config:
+          ssl: off

@@ -71,7 +71,6 @@ class Chef
     attribute(:dashboard_require_authentication, equal_to: [true, false], config_attribute: true)
     attribute(:dashboard_require_edit_group, kind_of: String, config_attribute: true)
     attribute(:dashboard_require_permissions, equal_to: [true, false], config_attribute: true)
-    # attribute(:databases, kind_of: String, config_attribute: true)
     attribute(:cluster_servers, kind_of: Array, config_attribute: true)
     attribute(:remote_find_timeout, kind_of: Float, config_attribute: true)
     attribute(:remote_fetch_timeout, kind_of: Float, config_attribute: true)
@@ -95,6 +94,10 @@ class Chef
     attribute(:enable_proxy, equal_to: [true, false], default: true)
     attribute(:port, kind_of: Fixnum, default: 8000)
     attribute(:local_settings, template: true)
+
+    def database(name, &block)
+      @database ||= graphite_database name, &block
+    end
 
     def provider(arg=nil)
       if arg.kind_of?(String) || arg.kind_of?(Symbol)
@@ -133,7 +136,6 @@ class Chef
     def action_install
       notifying_block do
         create_local_settings
-        # create_database
         configure_service
       end
     end

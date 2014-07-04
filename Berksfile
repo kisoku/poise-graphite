@@ -2,6 +2,10 @@ source 'https://api.berkshelf.com'
 
 metadata
 
+cookbook 'database',
+  git: 'https://github.com/kisoku/database',
+  branch: 'master'
+
 cookbook 'qosp_repo',
   git: 'https://github.qualcomm.com/ootcs-chef/qosp_repo-chef',
   branch: 'master'
