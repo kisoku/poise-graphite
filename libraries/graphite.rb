@@ -194,6 +194,9 @@ class Chef
   end
 
   class Provider::Graphite::Package < Chef::Provider::Graphite
+    # XXX This provider currently depends on a home rolled graphite package
+    # which I am waiting for permission to open source
+    # I am working on a virtualenv-based provider
 
     private
  
