@@ -190,6 +190,10 @@ class Chef
         content new_resource.local_settings_content
         notifies :restart, new_resource
       end
+
+      link "#{new_resource.parent.path}/lib/python2.7/site-packages/graphite/local_settings.py" do
+        to "#{new_resource.parent.path}/webapp/local_settings.py"
+      end
     end
 
     def configure_service
