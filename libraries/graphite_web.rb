@@ -40,7 +40,7 @@ class Chef
     attribute(:log_dir, kind_of: String, config_attribute: true, default: lazy { parent.log_dir })
     attribute(:index_file, kind_of: String, config_attribute: true, default: lazy { "#{parent.storage_dir}/index" })
 
-    attribute(:secret_key, kind_of: String, config_attribute: true)
+    attribute(:secret_key, kind_of: String, config_attribute: true, default: lazy { node['graphite']['web']['secret_key'] })
     attribute(:allowed_hosts, kind_of: Array, default: [ '*' ], config_attribute: true)
     attribute(:documentation_url, kind_of: String, config_attribute: true)
     attribute(:default_cache_duration, kind_of: String, config_attribute: true)
