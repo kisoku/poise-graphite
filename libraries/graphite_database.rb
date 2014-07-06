@@ -56,7 +56,7 @@ class Chef
     end
 
     def config_value_formatter_name(val)
-      "'#{val.split('::').last}'"
+      "#{val.split('::').last}"
     end
 
     def config_key_formatter(key)
@@ -75,11 +75,13 @@ class Chef
         line = format_attribute(attr, "%s,%s")
         if line
           k,v = line.split(',')
+          # XXX stupid hack, find something better
+          v.gsub!(/'/, '') if v.is_a? String
           h[:default][k] = v
         end
       end
 
-      buf << "DATABASE = %s" % JSON.pretty_generate(h)
+      buf << "DATABASES = %s" % JSON.pretty_generate(h)
     end
   end
 
@@ -128,7 +130,8 @@ class Chef
 
     def create_database
       conn = db_connection
-      postgresql_database new_resource.name do
+      # XXX don't like this hack either
+      postgresql_database new_resource.name.split('::').last do
         connection conn
         owner new_resource.user
       end
@@ -136,7 +139,7 @@ class Chef
 
     def sync_database
       execute "initialize database for #{new_resource.name}" do
-        command "su -l -c '#{new_resource.parent.parent.bin_dir}/django-admin.py syncdb --noinput' - graphite"
+        command "su -l -c '#{new_resource.parent.parent.bin_dir}/django-admin.py syncdb --noinput --settings=graphite.local_settings' - graphite"
       end
     end
   end
