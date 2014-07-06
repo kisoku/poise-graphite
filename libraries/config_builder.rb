@@ -19,7 +19,6 @@
 
 module ConfigBuilder
   module ClassMethods
-    @@config_attributes = []
 
     def attribute(name, options={})
       is_config_attr = options.delete(:config_attribute)
