@@ -25,7 +25,9 @@ class Chef
 
     attribute(:path, kind_of: String, default: '/opt/graphite', name_attribute: true)
     attribute(:user, kind_of: String, default: 'graphite')
+    attribute(:uid, kind_of: Fixnum)
     attribute(:group, kind_of: String, default: 'graphite')
+    attribute(:gid, kind_of: Fixnum)
     attribute(:bin_dir, kind_of: String, default: lazy { "#{path}/bin" })
     attribute(:conf_dir, kind_of: String, default: lazy { "#{path}/conf" })
     attribute(:local_data_dir, kind_of: String, default: lazy { "#{storage_dir}/whisper" })
@@ -98,14 +100,19 @@ class Chef
     private
 
     def create_group
-      group 'graphite'
+      group new_resource.group do
+        gid new_resource.gid if new_resource.gid
+      end
+
     end
 
     def create_user
-      user 'graphite' do
-        gid 'graphite'
-        system true
+      user new_resource.user do
+        gid new_resource.group
+        uid new_resource.uid if new_resource.uid
         home new_resource.path
+        supports({:manage_home => true})
+        system true
         shell '/bin/bash'
       end
     end
@@ -187,7 +194,7 @@ class Chef
     def install_graphite
       raise NotImplementedError
     end
-  
+
     def uninstall_graphite
       raise NotImplementedError
     end
@@ -199,7 +206,7 @@ class Chef
     # I am working on a virtualenv-based provider
 
     private
- 
+
     def install_graphite
       package 'graphite'
     end
