@@ -12,7 +12,6 @@ suites:
   - name: default
     run_list:
       - recipe[postgresql::server]
-      - recipe[qosp_repo]
       - recipe[graphite-test::default]
     attributes:
       qosp_repo:

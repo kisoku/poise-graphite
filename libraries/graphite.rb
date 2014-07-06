@@ -58,7 +58,7 @@ class Chef
     end
 
     def self.default_provider
-      :package
+      :virtualenv
     end
 
     def carbon_services
@@ -214,6 +214,160 @@ class Chef
     def uninstall_graphite
       package 'graphite' do
         action :remove
+      end
+    end
+  end
+
+  class Provider::Graphite::Virtualenv < Chef::Provider::Graphite
+
+    private
+
+    def package_dependencies
+      %w[
+        libffi-dev
+        libyaml-0-2
+        libyaml-dev
+        libcairo2
+        libcairo2-dev
+        libldap-2.4.2
+        libldap2-dev
+        libsasl2-2
+        libsasl2-dev
+      ]
+    end
+
+    def install_graphite
+      install_dependencies
+      create_virtualenv
+      install_eggs
+    end
+
+    private
+
+    def install_dependencies
+      include_recipe 'build-essential'
+      include_recipe 'git'
+      include_recipe 'python'
+      include_recipe 'postgresql::client'
+
+      package_dependencies.each {|p| package p }
+    end
+
+
+
+    def create_virtualenv
+      python_virtualenv new_resource.path do
+        owner new_resource.user
+        group new_resource.group
+      end
+    end
+
+    def install_eggs
+      python_pip 'psycopg2' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'Twisted' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'txamqp' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'git+https://github.com/graphite-project/carbon#egg=carbon' do
+        user new_resource.user
+        group new_resource.group
+        options "--install-option='--install-lib=#{new_resource.path}/lib/python2.7/site-packages'"
+        virtualenv new_resource.path
+      end
+
+      python_pip 'git+https://github.com/graphite-project/ceres.git#egg=ceres' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'git+https://github.com/graphite-project/whisper.git#egg=whisper' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'git+https://github.com/jssjr/carbonate.git#egg=carbonate' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'Django' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'python-memcached' do
+        version '1.47'
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'simplejson' do
+        version '2.1.6'
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'django-tagging' do
+        version '0.3.1'
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'gunicorn' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'pytz' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'pyparsing' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'python-ldap' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'http://cairographics.org/releases/py2cairo-1.8.10.tar.gz#egg=pycairo' do
+        user new_resource.user
+        group new_resource.group
+        virtualenv new_resource.path
+      end
+
+      python_pip 'git+https://github.com/graphite-project/graphite-web#egg=graphite-web' do
+        user new_resource.user
+        group new_resource.group
+        options "--install-option='--install-lib=#{new_resource.path}/lib/python2.7/site-packages'"
+        virtualenv new_resource.path
       end
     end
   end

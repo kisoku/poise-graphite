@@ -6,10 +6,6 @@ cookbook 'database',
   git: 'https://github.com/kisoku/database',
   branch: 'master'
 
-cookbook 'qosp_repo',
-  git: 'https://github.qualcomm.com/ootcs-chef/qosp_repo-chef',
-  branch: 'master'
-
 cookbook 'poise-proxy',
   git: 'https://github.com/poise/poise-proxy',
   branch: 'master'

@@ -6,8 +6,11 @@ description 'Installs/Configures poise-graphite'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '2.0.0'
 
+depends 'build-essential'
 depends 'database'
+depends 'git'
 depends 'nginx'
+depends 'python'
 depends 'poise'
 depends 'poise-proxy'
 depends 'runit'
