@@ -109,7 +109,14 @@ module ConfigBuilder
   end
 
   def array_to_csv(val)
-    val.join(', ')
+    case val
+    when String
+      val
+    when Array
+      val.join(', ')
+    else
+      raise ArgumentError, 'array_to_csv expects either a String or an Array'
+    end
   end
 
   def python_value_formatter(val, depth=0)
