@@ -40,7 +40,6 @@ GRAPH
     git (>= 0.0.0)
     nginx (>= 0.0.0)
     poise (>= 0.0.0)
-    poise-proxy (>= 0.0.0)
     python (>= 0.0.0)
     runit (>= 0.0.0)
   graphite-test (0.1.0)

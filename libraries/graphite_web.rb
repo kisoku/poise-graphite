@@ -91,8 +91,6 @@ class Chef
 
     attribute(:gunicorn_options, option_collector: true)
 
-    attribute(:enable_proxy, equal_to: [true, false], default: true)
-    attribute(:port, kind_of: Fixnum, default: 8000)
     attribute(:local_settings, template: true)
 
     def database(name, &block)
@@ -209,11 +207,6 @@ class Chef
 
     private
 
-    def configure_service
-      super
-      proxy_resource
-    end
-
     def service_resource
       include_recipe 'runit'
 
@@ -224,18 +217,6 @@ class Chef
         options(
           service_resource: new_resource
         )
-      end
-    end
-
-    def proxy_resource
-      svc = new_resource
-      if new_resource.enable_proxy
-        @proxy_resource ||= poise_proxy "graphite_web_#{new_resource.name}" do
-          parent svc
-          ssl_enabled true
-          ssl_redirect_http true
-          provider :nginx
-        end
       end
     end
   end
