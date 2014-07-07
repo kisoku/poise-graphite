@@ -26,8 +26,8 @@ class Chef
 
     actions(:nothing)
 
-    attribute(:pattern, kind_of: String, required: true)
-    attribute(:retentions, kind_of: String, required: true)
+    attribute(:pattern, kind_of: String, required: true, config_attribute: true )
+    attribute(:retentions, kind_of: [ String, Array ], required: true, config_attribute: true, config_value_formatter: :array_to_csv)
   end
 
   class Provider::GraphiteStorageSchemaRule < Chef::Provider

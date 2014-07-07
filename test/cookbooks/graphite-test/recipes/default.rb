@@ -21,6 +21,16 @@ graphite '/opt/graphite' do
   action :install
 end
 
+graphite_storage_schema_rule 'carbon' do
+  pattern '^carbon\.'
+  retentions '60:90d'
+end
+
+graphite_storage_schema_rule 'default_1min_for_1day' do
+  pattern '.*'
+  retentions '60s:1d'
+end
+
 carbon_cache 'a' do
   line_receiver_interface '127.0.0.1'
   line_receiver_port 2010
