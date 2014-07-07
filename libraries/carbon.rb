@@ -57,7 +57,7 @@ class Chef
     attribute(:max_updates_per_second, kind_of: Fixnum, config_attribute: true) # 500 ?
     attribute(:max_updates_per_second_on_shutdown, kind_of: Fixnum, config_attribute: true) # 1000 ?
     attribute(:max_creates_per_minute, kind_of: Fixnum, config_attribute: true) # 50 ?
-    attribute(:cache_query_interface, kind_of: Fixnum, default: '0.0.0.0', config_attribute: true)
+    attribute(:cache_query_interface, kind_of: String, default: '0.0.0.0', config_attribute: true)
     attribute(:cache_query_port, kind_of: Fixnum, default: 7002, config_attribute: true)
     attribute(:use_flow_control, equal_to: [ true, false ], default: true, config_attribute: true)
     attribute(:log_updates, equal_to: [ true, false ], default: false, config_attribute: true)
