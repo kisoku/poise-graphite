@@ -89,7 +89,7 @@ class Chef
     attribute(:replication_factor, kind_of: Fixnum, config_attribute: true)
     attribute(:max_fetch_retries, kind_of: Fixnum, config_attribute: true)
 
-    attribute(:gunicorn_options, option_collector: true)
+    attribute(:options, option_collector: true, default: { port: 8000, workers: 4 })
 
     attribute(:local_settings, template: true)
 
