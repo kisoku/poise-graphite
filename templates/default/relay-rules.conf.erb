@@ -24,7 +24,6 @@
 # default = true
 # destinations = 127.0.0.1:2004:a, 127.0.0.1:2104:b
 
-
 <%  @new_resource.subresources.select {|r| r.is_a?(Chef::Resource::GraphiteRelayRule)}.each do |r| -%>
 <%= r.to_ini %>
 <% end %>

@@ -90,6 +90,7 @@ class Chef
         create_carbon_conf
         create_storage_schemas_conf
         create_storage_aggregation_conf
+        create_relay_rules
       end
     end
 
@@ -189,7 +190,7 @@ class Chef
 
     def create_relay_rules
       if !new_resource.relay_rules_source && !new_resource.relay_rules_content(nil, true)
-        new_resource.relay_rules_source('storage-aggregation.conf.erb')
+        new_resource.relay_rules_source('relay-rules.conf.erb')
         new_resource.relay_rules_cookbook('graphite')
       end
 
