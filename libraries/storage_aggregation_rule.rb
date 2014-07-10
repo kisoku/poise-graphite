@@ -27,7 +27,7 @@ class Chef
     actions(:nothing)
 
     attribute(:pattern, kind_of: String, required: true, config_attribute: true)
-    attribute(:x_files_factor, kind_of: Float, required: true, config_attribute: true)
+    attribute(:x_files_factor, kind_of: [ Fixnum, Float ], required: true, config_attribute: true)
     attribute(:aggregation_method, kind_of: String, required: true, config_attribute: true)
 
     def config_section_name

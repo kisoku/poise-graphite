@@ -148,8 +148,8 @@ class Chef
     attribute(:destinations, kind_of: Array, default: lazy { local_destinations }, config_attribute: true, config_value_formatter: :array_to_csv)
     attribute(:max_queue_size, kind_of: Fixnum, default: 10000, config_attribute: true)
     attribute(:max_datapoints_per_message, kind_of: Fixnum, default: 500, config_attribute: true)
-    attribute(:queue_low_watermark_pct, kind_of: Float, default: 0.8, config_attribute: true)
-    attribute(:time_to_defer_sending, kind_of: Float, default: 0.0001, config_attribute: true)
+    attribute(:queue_low_watermark_pct, kind_of: [ Fixnum, Float ], default: 0.8, config_attribute: true)
+    attribute(:time_to_defer_sending, kind_of: [ Fixnum, Float ], default: 0.0001, config_attribute: true)
     attribute(:use_flow_control, equal_to: [true, false], default: true, config_attribute: true)
 
     def config_section_name
