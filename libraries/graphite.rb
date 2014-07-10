@@ -37,6 +37,7 @@ class Chef
     attribute(:ceres_dir, kind_of: String, default: lazy { "#{storage_dir}/ceres" })
     attribute(:rrd_dir, kind_of: String, default: lazy { "#{storage_dir}/rrd" })
 
+    attribute(:aggregation_rules, template: true)
     attribute(:carbon_conf, template: true)
     attribute(:storage_schemas, template: true)
     attribute(:storage_aggregation, template: true)
@@ -85,6 +86,7 @@ class Chef
         create_group
         create_user
         install_graphite
+        create_aggregation_rules
         create_carbon_conf
         create_storage_schemas_conf
         create_storage_aggregation_conf
@@ -114,6 +116,23 @@ class Chef
         supports({:manage_home => true})
         system true
         shell '/bin/bash'
+      end
+    end
+
+    def create_aggregation_rules
+      if !new_resource.aggregation_rules_source && !new_resource.aggregation_rules_content(nil, true)
+        new_resource.aggregation_rules_source('aggregation-rules.conf.erb')
+        new_resource.aggregation_rules_cookbook('graphite')
+      end
+
+      file "#{new_resource.conf_dir}/aggregation-rules.conf" do
+        owner new_resource.user
+        group new_resource.group
+        mode '0644'
+        content new_resource.aggregation_rules_content
+        new_resource.carbon_aggregators.each  do |res|
+          notifies :restart, res
+        end
       end
     end
 
