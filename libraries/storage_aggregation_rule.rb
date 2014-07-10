@@ -34,8 +34,12 @@ class Chef
       name
     end
 
-    def config_key_formatter(key)
-      key.camelize
+    def config_key_formatter_x_files_factor(key)
+      "xFilesFactor"
+    end
+
+    def config_key_formatter_aggregation_method(key)
+      "aggregationMethod"
     end
   end
 

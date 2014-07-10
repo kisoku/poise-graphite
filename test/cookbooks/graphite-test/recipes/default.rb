@@ -31,6 +31,12 @@ graphite_storage_schema_rule 'default_1min_for_1day' do
   retentions '60s:1d'
 end
 
+graphite_storage_aggregation_rule 'min' do
+  pattern '\.lower$'
+  x_files_factor 0.1 
+  aggregation_method 'min'
+end
+
 carbon_cache 'a' do
   line_receiver_interface '127.0.0.1'
   line_receiver_port 2010
