@@ -22,7 +22,7 @@ module ConfigBuilder
 
     def attribute(name, options={})
       is_config_attr = options.delete(:config_attribute)
-      if is_config_attr
+      if is_config_attr and not self.config_attributes.member?(name)
         self.config_attributes << name
       end
 
@@ -96,7 +96,6 @@ module ConfigBuilder
     buf << to_conf
     buf
   end
-
 
   def to_conf
     buf = String.new
