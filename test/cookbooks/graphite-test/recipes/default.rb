@@ -59,4 +59,7 @@ graphite_web 'gunicorn' do
     admin_user 'postgres'
     admin_password node['postgresql']['password']['postgres']
   end
+  ldap_options do
+    opt_x_tls_require_cert 'ldap.OPT_X_TLS_ALLOW'
+  end
 end

@@ -7,3 +7,10 @@
 <%= @new_resource.subresources.select {|r| r.is_a? Chef::Resource::GraphiteDatabase }.first.to_conf %>
 
 <%= @new_resource.to_conf %>
+
+<% unless @new_resource.ldap_options.empty? -%>
+import ldap
+<% @new_resource.ldap_options.each do |option, value| -%>
+ldap.set_option(ldap.<%= option.upcase %>, <%= value %>)
+<% end -%>
+<% end -%>

@@ -66,6 +66,7 @@ class Chef
     attribute(:ldap_base_user, kind_of: String, config_attribute: true)
     attribute(:ldap_base_pass, kind_of: String, config_attribute: true)
     attribute(:ldap_user_query, kind_of: String, config_attribute: true)
+    attribute(:ldap_options, option_collector: true)
     attribute(:use_remote_user_authentication, equal_to: [true, false], config_attribute: true)
     attribute(:login_url, kind_of: String, config_attribute: true)
     attribute(:dashboard_require_authentication, equal_to: [true, false], config_attribute: true)
