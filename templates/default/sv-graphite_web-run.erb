@@ -12,5 +12,5 @@ DAEMON_GROUP=<%= @options[:service_resource].parent.group %>
 
 exec chpst -u$DAEMON_USER:$DAEMON_GROUP \
     <%= @options[:service_resource].parent.bin_dir%>/gunicorn \
-        -b 127.0.0.1:<%= @options[:service_resource].options[:port] %> \
+        -b <%= @options[:bind_address] %>:<%= @options[:service_resource].options[:port] %> \
 	-w <%= @options[:service_resource].options[:workers] %> graphite.wsgi

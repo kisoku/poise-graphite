@@ -90,7 +90,7 @@ class Chef
     attribute(:replication_factor, kind_of: Fixnum, config_attribute: true)
     attribute(:max_fetch_retries, kind_of: Fixnum, config_attribute: true)
 
-    attribute(:options, option_collector: true, default: { port: 8000, workers: 4 })
+    attribute(:options, option_collector: true, default: { bind_address: '127.0.0.1', port: 8000, workers: 4 })
 
     attribute(:local_settings, template: true)
 
