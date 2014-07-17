@@ -194,7 +194,7 @@ class Chef
         new_resource.relay_rules_cookbook('graphite')
       end
 
-      file "#{new_resource.conf_dir}/relay-rules.cond" do
+      file "#{new_resource.conf_dir}/relay-rules.conf" do
         owner new_resource.user
         group new_resource.group
         mode '0644'
