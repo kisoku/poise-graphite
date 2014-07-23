@@ -4,14 +4,6 @@
 
 [cache]
 
-<% @new_resource.subresources.select {|r| r.is_a?(Chef::Resource::CarbonCache) && r.action != :nothing }.each do |r| -%>
-<%= r.to_ini -%>
-<% end -%>
-
-<% @new_resource.subresources.select {|r| r.is_a?(Chef::Resource::CarbonRelay) && r.action != :nothing }.each do |r| -%>
-<%= r.to_ini -%>
-<% end -%>
-
-<% @new_resource.subresources.select {|r| r.is_a?(Chef::Resource::CarbonAggregator) && r.action != :nothing }.each do |r| -%>
-<%= r.to_ini -%>
+<% @new_resource.subresources.select {|r| r.is_a?(Chef::Resource::Carbon) && r.action != :nothing }.each do |r| -%>
+<%= r.to_ini %>
 <% end -%>
