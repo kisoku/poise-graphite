@@ -106,7 +106,6 @@ class Chef
       group new_resource.group do
         gid new_resource.gid if new_resource.gid
       end
-
     end
 
     def create_user
