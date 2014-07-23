@@ -42,6 +42,17 @@ carbon_cache 'a' do
   line_receiver_port 2010
   pickle_receiver_interface '127.0.0.1'
   pickle_receiver_port 2011
+  cache_query_interface '127.0.0.1'
+  cache_query_port 7012
+end
+
+carbon_cache 'b' do
+  line_receiver_interface '127.0.0.1'
+  line_receiver_port 2012
+  pickle_receiver_interface '127.0.0.1'
+  pickle_receiver_port 2013
+  cache_query_interface '127.0.0.1'
+  cache_query_port 7013
 end
 
 carbon_relay 'a' do
@@ -53,12 +64,17 @@ carbon_relay 'a' do
 end
 
 graphite_web 'gunicorn' do
+  carbonlink_hosts lazy {
+    parent.carbon_caches.collect {|r| "#{r.cache_query_interface}:#{r.cache_query_port}" }
+  }
+
   database 'graphite' do
     user 'graphite'
     password 'badpassword'
     admin_user 'postgres'
     admin_password node['postgresql']['password']['postgres']
   end
+
   ldap_options do
     opt_x_tls_require_cert 'ldap.OPT_X_TLS_ALLOW'
   end
