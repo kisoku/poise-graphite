@@ -25,21 +25,36 @@ describe 'graphite' do
 
   describe file('/opt/graphite/conf/aggregation-rules.conf') do
     it { should be_file }
+    it { should be_owned_by 'graphite' }
+    it { should be_grouped_into 'graphite' }
+    it { should be_mode 644 }
   end
 
   describe file('/opt/graphite/conf/carbon.conf') do
     it { should be_file }
+    it { should be_owned_by 'graphite' }
+    it { should be_grouped_into 'graphite' }
+    it { should be_mode 644 }
   end
 
   describe file('/opt/graphite/conf/relay-rules.conf') do
     it { should be_file }
+    it { should be_owned_by 'graphite' }
+    it { should be_grouped_into 'graphite' }
+    it { should be_mode 644 }
   end
 
   describe file('/opt/graphite/conf/storage-aggregation.conf') do
     it { should be_file }
+    it { should be_owned_by 'graphite' }
+    it { should be_grouped_into 'graphite' }
+    it { should be_mode 644 }
   end
 
   describe file('/opt/graphite/conf/storage-schemas.conf') do
     it { should be_file }
+    it { should be_owned_by 'graphite' }
+    it { should be_grouped_into 'graphite' }
+    it { should be_mode 644 }
   end
 end
