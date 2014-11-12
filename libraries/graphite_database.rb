@@ -139,7 +139,7 @@ class Chef
 
     def sync_database
       execute "initialize database for #{new_resource.name}" do
-        command "su -l -c '#{new_resource.parent.parent.bin_dir}/django-admin.py syncdb --noinput --settings=graphite.local_settings' - graphite"
+        command "su -l -c '#{new_resource.parent.parent.bin_dir}/django-admin.py syncdb --noinput --settings=graphite.settings' - graphite"
       end
     end
   end
