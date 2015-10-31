@@ -1,4 +1,5 @@
 ---
+#<% require 'kitchen-sync' %>
 driver:
   name: vagrant
 
@@ -12,7 +13,7 @@ suites:
   - name: default
     run_list:
       - recipe[postgresql::server]
-      - recipe[graphite-test::default]
+      - recipe[poise-graphite-test::default]
     attributes:
       qosp_repo:
         use_dev: true

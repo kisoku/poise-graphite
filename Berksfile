@@ -1,4 +1,4 @@
-source 'https://api.berkshelf.com'
+source 'https://supermarket.chef.io'
 
 metadata
 
@@ -11,5 +11,5 @@ cookbook 'poise-proxy',
   branch: 'master'
 
 group :integration do
-  cookbook 'graphite-test', path: 'test/cookbooks/graphite-test'
+  cookbook 'poise-graphite-test', path: 'test/cookbooks/graphite-test'
 end
