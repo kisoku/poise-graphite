@@ -16,10 +16,15 @@
 # limitations under the License.
 #
 
+require 'poise'
+require 'chef/resource'
+require 'chef/provider'
+
 class Chef
   class Resource::Graphite < Chef::Resource
-    include Poise
-    include Poise::Resource::SubResourceContainer
+    include Poise(container: true)
+
+    provides(:graphite)
 
     actions(:install, :uninstall, :nothing)
 
@@ -122,7 +127,7 @@ class Chef
     def create_aggregation_rules
       if !new_resource.aggregation_rules_source && !new_resource.aggregation_rules_content(nil, true)
         new_resource.aggregation_rules_source('aggregation-rules.conf.erb')
-        new_resource.aggregation_rules_cookbook('graphite')
+        new_resource.aggregation_rules_cookbook('poise-graphite')
       end
 
       file "#{new_resource.conf_dir}/aggregation-rules.conf" do
@@ -139,7 +144,7 @@ class Chef
     def create_carbon_conf
       if !new_resource.carbon_conf_source && !new_resource.carbon_conf_content(nil, true)
         new_resource.carbon_conf_source('carbon.conf.erb')
-        new_resource.carbon_conf_cookbook('graphite')
+        new_resource.carbon_conf_cookbook('poise-graphite')
       end
 
       file "#{new_resource.conf_dir}/carbon.conf" do
@@ -156,7 +161,7 @@ class Chef
     def create_storage_schemas_conf
       if !new_resource.storage_schemas_source && !new_resource.storage_schemas_content(nil, true)
         new_resource.storage_schemas_source('storage-schemas.conf.erb')
-        new_resource.storage_schemas_cookbook('graphite')
+        new_resource.storage_schemas_cookbook('poise-graphite')
       end
 
       file "#{new_resource.conf_dir}/storage-schemas.conf" do
@@ -173,7 +178,7 @@ class Chef
     def create_storage_aggregation_conf
       if !new_resource.storage_aggregation_source && !new_resource.storage_aggregation_content(nil, true)
         new_resource.storage_aggregation_source('storage-aggregation.conf.erb')
-        new_resource.storage_aggregation_cookbook('graphite')
+        new_resource.storage_aggregation_cookbook('poise-graphite')
       end
 
       file "#{new_resource.conf_dir}/storage-aggregation.conf" do
@@ -190,7 +195,7 @@ class Chef
     def create_relay_rules
       if !new_resource.relay_rules_source && !new_resource.relay_rules_content(nil, true)
         new_resource.relay_rules_source('relay-rules.conf.erb')
-        new_resource.relay_rules_cookbook('graphite')
+        new_resource.relay_rules_cookbook('poise-graphite')
       end
 
       file "#{new_resource.conf_dir}/relay-rules.conf" do

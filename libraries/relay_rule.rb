@@ -16,13 +16,15 @@
 # limitations under the License.
 #
 
-require File.expand_path('../graphite', __FILE__)
-require File.expand_path('../config_builder', __FILE__)
+require_relative 'graphite'
+require_relative 'config_builder'
 
 class Chef
   class Resource::GraphiteRelayRule < Chef::Resource
-    include Poise(Graphite)
+    include Poise(parent: :graphite)
     include ConfigBuilder
+
+    provides(:graphite_relay_rule)
 
     actions(:nothing)
 
@@ -33,6 +35,6 @@ class Chef
   end
 
   class Provider::GraphiteRelayRule < Chef::Provider
-    include Poise(Graphite)
+    include Poise(parent: :graphite)
   end
 end

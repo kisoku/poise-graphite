@@ -16,8 +16,8 @@
 # limitations under the License.
 #
 
-require File.expand_path('../graphite', __FILE__)
-require File.expand_path('../config_builder', __FILE__)
+require_relative 'graphite'
+require_relative 'config_builder'
 
 class Chef
   class Resource::Carbon < Chef::Resource
@@ -127,6 +127,7 @@ class Chef
 
   class Resource::CarbonCache < Chef::Resource::Carbon
 
+    provides(:carbon_cache)
 
     def config_section_name
       "cache:#{name}"
@@ -142,6 +143,8 @@ class Chef
   end
 
   class Resource::CarbonRelay < Chef::Resource::Carbon
+
+    provides(:carbon_relay)
 
     attribute(:relay_method, equal_to: [ 'rules', 'consistent-hashing', 'aggregated-consistent-hashing' ], config_attribute: true)
     attribute(:replication_factor, kind_of: Fixnum, config_attribute: true)
@@ -166,6 +169,8 @@ class Chef
   end
 
   class Resource::CarbonAggregator < Chef::Resource::Carbon
+
+    provides(:carbon_aggregator)
 
     attribute(:destinations, kind_of: Array, default: lazy { local_destinations }, config_attribute: true, config_value_formatter: :array_to_csv)
 
@@ -234,6 +239,7 @@ class Chef
       raise NotImplementedError
     end
   end
+
   class Provider::Carbon::Runit < Chef::Provider::Carbon
 
     private
@@ -242,7 +248,7 @@ class Chef
       include_recipe 'runit'
 
       @service_resource ||= runit_service new_resource.service_name do
-        cookbook 'graphite'
+        cookbook 'poise-graphite'
         run_template_name new_resource.run_template_name
         log_template_name new_resource.log_template_name
         options(

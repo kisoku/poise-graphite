@@ -8,6 +8,8 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
+    run_list:
+      - recipe[apt]
 
 suites:
   - name: default
@@ -15,8 +17,8 @@ suites:
       - recipe[postgresql::server]
       - recipe[poise-graphite-test::default]
     attributes:
-      qosp_repo:
-        use_dev: true
+      apt:
+        compile_time_update: true
       postgresql:
         password:
           postgres: 'reallybadpassword'

@@ -16,13 +16,15 @@
 # limitations under the License.
 #
 
-require File.expand_path('../graphite_web', __FILE__)
-require File.expand_path('../config_builder', __FILE__)
+require_relative 'graphite_web'
+require_relative 'config_builder'
 
 class Chef
   class Resource::GraphiteDatabase < Chef::Resource
-    include Poise(GraphiteWeb)
+    include Poise(parent: :graphite_web)
     include ConfigBuilder
+
+    provides(:graphite_database)
 
     actions(:install, :uninstall)
 
@@ -86,7 +88,7 @@ class Chef
   end
 
   class Provider::GraphiteDatabase < Chef::Provider
-    include Poise(GraphiteWeb)
+    include Poise(parent: :graphite_web)
 
     def action_install
       raise NotImplementedError

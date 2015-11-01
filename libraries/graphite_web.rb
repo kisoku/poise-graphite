@@ -16,14 +16,15 @@
 # limitations under the License.
 #
 
-require File.expand_path('../graphite', __FILE__)
-require File.expand_path('../config_builder', __FILE__)
+require_relative 'graphite'
+require_relative 'config_builder'
 
 class Chef
   class Resource::GraphiteWeb < Chef::Resource
-    include Poise(Graphite)
-    include Poise::Resource::SubResourceContainer
+    include Poise(parent: :graphite, container: true)
     include ConfigBuilder
+
+    provides(:graphite_web)
 
     actions(:install, :uninstall, :enable, :disable, :start, :stop, :restart)
 
@@ -130,7 +131,7 @@ class Chef
     end
   end
   class Provider::GraphiteWeb < Chef::Provider
-    include Poise(Graphite)
+    include Poise(parent: :graphite)
 
     def action_install
       notifying_block do
@@ -179,7 +180,7 @@ class Chef
     def create_local_settings
       if !new_resource.local_settings_source && !new_resource.local_settings_content(nil, true)
         new_resource.local_settings_source('local_settings.py.erb')
-        new_resource.local_settings_cookbook('graphite')
+        new_resource.local_settings_cookbook('poise-graphite')
       end
 
       file "#{new_resource.parent.path}/webapp/local_settings.py" do
@@ -212,7 +213,7 @@ class Chef
       include_recipe 'runit'
 
       @service_resource ||= runit_service new_resource.service_name do
-        cookbook 'graphite'
+        cookbook 'poise-graphite'
         run_template_name 'graphite_web'
         log_template_name 'graphite_web'
         options(
